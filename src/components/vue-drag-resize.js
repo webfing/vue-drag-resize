@@ -32,6 +32,11 @@ export default {
         stickSize: {
             type: Number, default: 8,
         },
+        // border-线框 | none-无
+        stickStyle: {
+            type: String,
+            default: 'border'
+        },
         parentScaleX: {
             type: Number, default: 1,
         },
@@ -162,6 +167,9 @@ export default {
             required: false,
             default: '',
         },
+        zoomTransition: {
+            type: String, default: 'none',
+        }
     },
 
     data() {
@@ -176,6 +184,8 @@ export default {
             right: null,
             bottom: null,
             minHeight: null,
+            currentHoverStick: null,
+            lastTransition: 'none',
         };
     },
 
@@ -239,6 +249,12 @@ export default {
                 return;
             }
             this.active = false;
+        },
+
+        transitionend({ propertyName }) {
+            if (['left', 'width'].includes(propertyName)) {
+                this.zoomDrag = false;
+            }
         },
 
         move(ev) {
@@ -319,6 +335,9 @@ export default {
                 this.bodyDrag = true;
             }
 
+            this.lastTransition = this.$refs.container.style.transition;
+            this.$refs.container.style.transition = 'none';
+
             const pointerX = typeof ev.pageX !== 'undefined' ? ev.pageX : ev.touches[0].pageX;
             const pointerY = typeof ev.pageY !== 'undefined' ? ev.pageY : ev.touches[0].pageY;
 
@@ -387,6 +406,8 @@ export default {
             this.$emit('dragging', this.rect);
             this.$emit('dragstop', this.rect);
 
+            this.$refs.container.style.transition = this.lastTransition;
+
             this.dimensionsBeforeMove = { pointerX: 0, pointerY: 0, x: 0, y: 0, w: 0, h: 0 };
 
             this.limits = {
@@ -403,6 +424,8 @@ export default {
             }
 
             this.stickDrag = true;
+            this.lastTransition = this.$refs.container.style.transition;
+            this.$refs.container.style.transition = 'none';
 
             const pointerX = typeof ev.pageX !== 'undefined' ? ev.pageX : ev.touches[0].pageX;
             const pointerY = typeof ev.pageY !== 'undefined' ? ev.pageY : ev.touches[0].pageY;
@@ -429,7 +452,22 @@ export default {
             this.aspectFactor = this.width / this.height;
         },
 
+        zoom({ width, height }, targetStick) {
+            this.zoomDrag = true;
+            this.currentStick = targetStick;
+            this.$refs.container.style.transition = this.zoomTransition;
+            this.$nextTick(() => {
+                this.saveDimensionsBeforeMove({ pointerX: 0, pointerY: 0 });
+                const delta = {
+                    x: width - this.width,
+                    y: height - this.height
+                };
+                this.stickMove(delta)
+            })
+        },
+
         stickMove(delta) {
+            
             const {
                 currentStick,
                 dimensionsBeforeMove,
@@ -439,6 +477,7 @@ export default {
                 parentHeight,
                 parentWidth,
             } = this;
+
 
             let newTop = dimensionsBeforeMove.top;
             let newBottom = dimensionsBeforeMove.bottom;
@@ -529,8 +568,22 @@ export default {
                 bottom: { min: null, max: null },
             };
 
+            this.$refs.container.style.transition = this.lastTransition;
+
             this.$emit('resizing', this.rect);
             this.$emit('resizestop', this.rect);
+        },
+
+        stickEnter(stick) {
+            // 如果不是正在拖动过程中，就符于动作
+            if (!this.stickDrag) {
+                this.$refs.container.style.transition = '0.3s';
+            }
+            this.currentHoverStick = stick;
+        },
+
+        stickOut(stick) {
+            this.currentHoverStick = null;
         },
 
         calcDragLimitation() {
@@ -679,6 +732,10 @@ export default {
     },
 
     computed: {
+        // 排序一下，将顶点放在后面，zindex 更高
+        showSticks() {
+            return this.sticks.sort((item) => item.includes('m') ? -1 : 1);
+        },
         positionStyle() {
             return {
                 top: this.top + 'px',
@@ -694,8 +751,25 @@ export default {
             };
         },
 
+        style() {
+            return {
+                ...this.positionStyle,
+                ...this.sizeStyle,
+            }
+        },
+
         vdrStick() {
             return (stick) => {
+                if (this.stickStyle !== 'border') {
+                    const stickStyle = {
+                        width: ['tm', 'bm'].includes(stick) ? '100%' : `${this.stickSize / this.parentScaleX}px`,
+                        height: ['ml', 'mr'].includes(stick) ? '100%' : `${this.stickSize / this.parentScaleY}px`,
+                    };
+                    stickStyle[styleMapping.y[stick[0]]] = `${this.stickSize / this.parentScaleX / -2}px`;
+                    stickStyle[styleMapping.x[stick[1]]] = `${this.stickSize / this.parentScaleX / -2}px`;
+                    return stickStyle;
+                }
+
                 const stickStyle = {
                     width: `${this.stickSize / this.parentScaleX}px`,
                     height: `${this.stickSize / this.parentScaleY}px`,
@@ -751,7 +825,7 @@ export default {
 
         x: {
             handler(newVal, oldVal) {
-                if (this.stickDrag || this.bodyDrag || (newVal === this.left)) {
+                if (this.stickDrag || this.zoomDrag || this.bodyDrag || (newVal === this.left)) {
                     return;
                 }
 
@@ -768,7 +842,7 @@ export default {
 
         y: {
             handler(newVal, oldVal) {
-                if (this.stickDrag || this.bodyDrag || (newVal === this.top)) {
+                if (this.stickDrag || this.zoomDrag || this.bodyDrag || (newVal === this.top)) {
                     return;
                 }
 
@@ -785,7 +859,7 @@ export default {
 
         w: {
             handler(newVal, oldVal) {
-                if (this.stickDrag || this.bodyDrag || (newVal === this.width)) {
+                if (this.stickDrag || this.zoomDrag || this.bodyDrag || (newVal === this.width)) {
                     return;
                 }
 
@@ -803,7 +877,7 @@ export default {
 
         h: {
             handler(newVal, oldVal) {
-                if (this.stickDrag || this.bodyDrag || (newVal === this.height)) {
+                if (this.stickDrag || this.zoomDrag || this.bodyDrag || (newVal === this.height)) {
                     return;
                 }
 

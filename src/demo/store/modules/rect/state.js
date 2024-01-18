@@ -20,7 +20,7 @@ export default {
         {
             'width': 200,
             'height': 150,
-            'top': 170,
+            'top': 10,
             'left': 220,
             'draggable': true,
             'resizable': true,
@@ -33,13 +33,12 @@ export default {
             'zIndex': 1,
             'color': '#E6C27A',
             'active': false,
-            'class': 'box-shaddow'
         },
         {
             'width': 200,
             'height': 150,
-            'top': 10,
-            'left': 220,
+            'top': 170,
+            'left': 10,
             'draggable': true,
             'resizable': true,
             'minw': 10,
@@ -56,18 +55,21 @@ export default {
             'width': 200,
             'height': 150,
             'top': 170,
-            'left': 10,
+            'left': 220,
             'draggable': true,
             'resizable': true,
             'minw': 10,
             'minh': 10,
+            'stickSize': 20,
             'axis': 'both',
             'parentLim': true,
             'snapToGrid': false,
             'aspectRatio': false,
             'zIndex': 3,
             'color': '#81D4FA',
-            'active': false
+            'active': false,
+            'stickStyle': 'none',
+            'zoomTransition': 'all 0.3s ease-out',
         }
     ]
 };

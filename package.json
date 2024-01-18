@@ -1,8 +1,8 @@
 {
-  "name": "vue-drag-resize",
+  "name": "vue-drag-resizer",
   "version": "1.5.4",
-  "description": "Vue Component for resize and drag elements",
-  "author": "Kirill Murashov <me@kirillmurashov.com>",
+  "description": "Vue Component for resize and drag elements fork from https://github.com/kirillmurashov/vue-drag-resize",
+  "author": "cpjmj Kirill",
   "main": "dist/index.js",
   "scripts": {
     "start": "NODE_ENV=develop webpack-dev-server -d",
@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kirillmurashov/vue-drag-resize.git"
+    "url": "https://github.com/webfing/vue-drag-resize.git"
   },
   "bugs": {
-    "url": "https://github.com/kirillmurashov/vue-drag-resize/issues"
+    "url": "https://github.com/webfing/vue-drag-resize/issues"
   },
-  "homepage": "https://github.com/kirillmurashov/vue-drag-resize.git",
+  "homepage": "https://github.com/webfing/vue-drag-resize.git",
   "devDependencies": {
     "acorn-dynamic-import": "^3.0.0",
     "autoprefixer": "^6.7.2",

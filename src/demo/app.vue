@@ -2,6 +2,7 @@
     <div id="app">
         <div class="list" id="list">
             <VueDragResize v-for="(rect, index) in rects"
+                        :ref="`drag${index}`"
                            :key="index"
                            :w="rect.width"
                            :h="rect.height"
@@ -13,8 +14,11 @@
                            :isActive="rect.active"
                            :minw="rect.minw"
                            :minh="rect.minh"
+                           :stickStyle="rect.stickStyle"
+                           :zoomTransition="rect.zoomTransition"
                            :isDraggable="rect.draggable"
                            :isResizable="rect.resizable"
+                           :stickSize="rect.stickSize"
                            :parentLimitation="rect.parentLim"
                            :snapToGrid="rect.snapToGrid"
                            :aspectRatio="rect.aspectRatio"
@@ -25,7 +29,10 @@
                            v-on:dragging="changePosition($event, index)"
                            v-on:resizing="changeSize($event, index)"
             >
-                <div class="filler" :style="{backgroundColor:rect.color}"></div>
+                <div class="filler" :style="{backgroundColor:rect.color}">
+                    <button @click="zoom(`drag${index}`)">展开</button>
+                    <button @click="unzoom(`drag${index}`)">收起</button>
+                </div>
             </VueDragResize>
         </div>
 
@@ -52,8 +59,11 @@
     .filler {
         width: 100%;
         height: 100%;
-        display: inline-block;
         position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
     }
 
     .list {
@@ -111,6 +121,22 @@
         methods: {
             activateEv(index) {
                 this.$store.dispatch('rect/setActive', {id: index});
+            },
+
+            zoom(target) {
+                const drag = this.$refs[target][0];
+                drag.zoom({
+                    width: 700,
+                    height: 300
+                }, 'ml')
+            },
+
+            unzoom(target) {
+                const drag = this.$refs[target][0];
+                drag.zoom({
+                    width: 330,
+                    height: 300
+                }, 'ml')
             },
 
             deactivateEv(index) {

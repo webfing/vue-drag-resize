@@ -12,7 +12,7 @@ module.exports = deepExtend({
     },
     server: {
         assetsPath: path.resolve(__dirname, '../static'),
-        port: 8081,
+        port: 8881,
         host: '0.0.0.0',
         autoOpenBrowser: true,
     }

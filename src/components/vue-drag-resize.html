@@ -1,17 +1,21 @@
-<div class="vdr" :style="positionStyle"
-     :class="`${(active || isActive) ? 'active' : 'inactive'} ${contentClass ? contentClass: ''}`"
+<div class="vdr" :style="style"
+     ref="container"
+     :class="`${(active || isActive) ? 'active' : 'inactive'} ${contentClass ? contentClass: ''} vdr-${stickStyle} vdr-hover-${currentHoverStick}`"
      @mousedown="bodyDown($event)"
      @touchstart="bodyDown($event)"
+     @transitionend="transitionend($event)"
      @touchend="up($event)">
-    <div :style="sizeStyle" class="content-container" ref="container">
+    <div class="content-container" >
         <slot></slot>
     </div>
     <div
-            v-for="stick in sticks"
+            v-for="stick in showSticks"
             class="vdr-stick"
-            :class="['vdr-stick-' + stick, isResizable ? '' : 'not-resizable']"
+            :class="['vdr-stick-' + stick, isResizable ? '' : 'not-resizable', 'vdr-stick-' + stickStyle]"
             @mousedown.stop.prevent="stickDown(stick, $event)"
             @touchstart.stop.prevent="stickDown(stick, $event)"
+            @mouseenter.stop.prevent="stickEnter(stick, $event)"
+            @mouseout.stop.prevent="stickOut(stick, $event)"
             :style="vdrStick(stick)">
     </div>
 </div>
