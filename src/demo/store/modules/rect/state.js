@@ -49,7 +49,9 @@ export default {
             'aspectRatio': false,
             'zIndex': 2,
             'color': '#AED581',
-            'active': false
+            'active': false,
+            'stickStyle': 'none',
+            'stickHoverStyle': 'border'
         },
         {
             'width': 200,
@@ -67,8 +69,9 @@ export default {
             'aspectRatio': false,
             'zIndex': 3,
             'color': '#81D4FA',
-            'active': false,
+            'active': true,
             'stickStyle': 'none',
+            'stickHoverStyle': 'box-shadow',
             'zoomTransition': 'all 0.3s ease-out',
         }
     ]

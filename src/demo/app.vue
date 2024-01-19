@@ -15,6 +15,7 @@
                            :minw="rect.minw"
                            :minh="rect.minh"
                            :stickStyle="rect.stickStyle"
+                           :stickHoverStyle="rect.stickHoverStyle"
                            :zoomTransition="rect.zoomTransition"
                            :isDraggable="rect.draggable"
                            :isResizable="rect.resizable"
@@ -30,6 +31,7 @@
                            v-on:resizing="changeSize($event, index)"
             >
                 <div class="filler" :style="{backgroundColor:rect.color}">
+                    <textarea>test</textarea>
                     <button @click="zoom(`drag${index}`)">展开</button>
                     <button @click="unzoom(`drag${index}`)">收起</button>
                 </div>

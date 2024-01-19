@@ -1,6 +1,6 @@
 <div class="vdr" :style="style"
      ref="container"
-     :class="`${(active || isActive) ? 'active' : 'inactive'} ${contentClass ? contentClass: ''} vdr-${stickStyle} vdr-hover-${currentHoverStick}`"
+     :class="`${(active || isActive) ? 'active' : 'inactive'} ${contentClass ? contentClass: ''} vdr-${stickStyle} vdr-hover-${stickHoverStyle} vdr-hover-${currentHoverStick}`"
      @mousedown="bodyDown($event)"
      @touchstart="bodyDown($event)"
      @transitionend="transitionend($event)"

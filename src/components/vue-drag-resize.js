@@ -23,6 +23,12 @@ function removeEvents(events) {
     });
 }
 
+function isParent(dom, parent) {
+    if (dom === document.body || !dom.parentElement ) return false;
+    if (dom.parentElement === parent) return true;
+    return isParent(dom.parentElement, parent)
+}
+
 export default {
     name: 'vue-drag-resize',
 
@@ -34,6 +40,14 @@ export default {
         },
         // border-线框 | none-无
         stickStyle: {
+            type: String,
+            default: 'border'
+        },
+        /**
+         * 当stickStyle为 none 时该属性才有效
+         * box-shadow-阴影 | border-边线
+         */
+        stickHoverStyle: {
             type: String,
             default: 'border'
         },
@@ -244,7 +258,11 @@ export default {
     },
 
     methods: {
-        deselect() {
+        deselect({ target }) {
+
+            // 如果是点击的该容器内的元素，则不视频为 blur，不需要取消 active
+            if (isParent(target, this.$refs.container)) return;
+
             if (this.preventActiveBehavior) {
                 return;
             }
@@ -321,14 +339,6 @@ export default {
 
             if (this.dragCancel && target.getAttribute('data-drag-cancel') === this._uid.toString()) {
                 return;
-            }
-
-            if (typeof ev.stopPropagation !== 'undefined') {
-                ev.stopPropagation();
-            }
-
-            if (typeof ev.preventDefault !== 'undefined') {
-                ev.preventDefault();
             }
 
             if (this.isDraggable) {
