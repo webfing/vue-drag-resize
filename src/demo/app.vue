@@ -16,6 +16,7 @@
                            :maxw="rect.maxw"
                            :minh="rect.minh"
                            :maxh="rect.maxh"
+                           :sticks="rect.sticks"
                            :stickStyle="rect.stickStyle"
                            :stickHoverStyle="rect.stickHoverStyle"
                            :zoomTransition="rect.zoomTransition"
@@ -40,11 +41,35 @@
             </VueDragResize>
         </div>
 
+        <VueDragResize
+            :isActive="true"
+            :w="330"
+            :h="1114"
+            :minw="330"
+            :maxw="760"
+            :sticks="['ml']"
+            :x="960"
+            :z="1000"
+            stickStyle="none"
+            stickHoverStyle="none"
+            :isDraggable="false"
+            :y="90"
+            class="global-qa-drag"
+            ref="qlobalQaDrag"
+        >
+        test
+        </VueDragResize>
+
         <toolbar></toolbar>
     </div>
 </template>
 
 <style>
+
+    .global-qa-drag {
+        border: 1px solid red;
+    }    
+
     body {
         height: 100vh;
         width: 100vw;

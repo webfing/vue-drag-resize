@@ -636,6 +636,8 @@ export default {
                 }
             }
 
+            console.log('calcResizeLimits', parentLim, width, height, bottom, top, left, right, maxWidth, minHeight);
+
             const leftMin = maxWidth ? (left - (maxWidth - width)) : 0;
             const rightMin = maxWidth ? (right - (maxWidth - width)) : 0;
             const topMin = maxHeight ? (top - (maxHeight - height)) : 0;
@@ -647,6 +649,8 @@ export default {
                 top: { min: parentLim + topMin, max: top + (height - minHeight) },
                 bottom: { min: parentLim + bottomMin, max: bottom + (height - minHeight) },
             };
+
+            console.log('limits', limits)
 
             if (this.aspectRatio) {
                 const aspectLimits = {

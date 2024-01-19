@@ -61,7 +61,7 @@ export default {
             'draggable': true,
             'resizable': true,
             'minw': 200,
-            'minh': 200,
+            'minh': 50,
             'maxw': 400,
             'maxh': 400,
             'stickSize': 20,
@@ -75,6 +75,21 @@ export default {
             'stickStyle': 'none',
             'stickHoverStyle': 'box-shadow',
             'zoomTransition': 'all 0.3s ease-out',
-        }
+        },
+        // {
+        //     'width': 330,
+        //     'height': 1114,
+        //     'top': 90,
+        //     'left': 660,
+        //     'draggable': false,
+        //     'minw': 330,
+        //     'maxw': 760,
+        //     'zIndex': 1000,
+        //     'color': '#81D4FA',
+        //     'active': true,
+        //     'sticks': ['ml'],
+        //     'stickStyle': 'none',
+        //     'stickHoverStyle': 'none'
+        // }
     ]
 };
