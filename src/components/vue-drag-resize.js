@@ -45,7 +45,7 @@ export default {
         },
         /**
          * 当stickStyle为 none 时该属性才有效
-         * box-shadow-阴影 | border-边线
+         * box-shadow-阴影 | border-边线 | none
          */
         stickHoverStyle: {
             type: String,

@@ -51,7 +51,7 @@ export default {
             'color': '#AED581',
             'active': false,
             'stickStyle': 'none',
-            'stickHoverStyle': 'border'
+            'stickHoverStyle': 'none'
         },
         {
             'width': 200,
