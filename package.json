@@ -1,6 +1,6 @@
 {
   "name": "vue2-drag-resize",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Vue Component for resize and drag elements fork from https://github.com/kirillmurashov/vue-drag-resize",
   "author": "cpjmj Kirill",
   "main": "dist/index.js",
