@@ -127,9 +127,23 @@ export default {
                 return val >= 0;
             },
         },
+        maxw: {
+            type: Number,
+            default: null,
+            validator(val) {
+                return val >= 0;
+            },
+        },
         minh: {
             type: Number,
             default: 50,
+            validator(val) {
+                return val >= 0;
+            },
+        },
+        maxh: {
+            type: Number,
+            default: null,
             validator(val) {
                 return val >= 0;
             },
@@ -609,7 +623,8 @@ export default {
 
         calcResizeLimits() {
             const { aspectFactor, width, height, bottom, top, left, right } = this;
-            let { minh: minHeight, minw: minWidth } = this;
+            let { minh: minHeight, minw: minWidth, maxh: maxHeight, maxw: maxWidth} = this;
+            
 
             const parentLim = this.parentLimitation ? 0 : null;
 
@@ -621,11 +636,16 @@ export default {
                 }
             }
 
+            const leftMin = maxWidth ? (left - (maxWidth - width)) : 0;
+            const rightMin = maxWidth ? (right - (maxWidth - width)) : 0;
+            const topMin = maxHeight ? (top - (maxHeight - height)) : 0;
+            const bottomMin = maxHeight ? (bottom - (maxHeight - height)) : 0;
+
             const limits = {
-                left: { min: parentLim, max: left + (width - minWidth) },
-                right: { min: parentLim, max: right + (width - minWidth) },
-                top: { min: parentLim, max: top + (height - minHeight) },
-                bottom: { min: parentLim, max: bottom + (height - minHeight) },
+                left: { min: parentLim + leftMin, max: left + (width - minWidth) },
+                right: { min: parentLim + rightMin, max: right + (width - minWidth) },
+                top: { min: parentLim + topMin, max: top + (height - minHeight) },
+                bottom: { min: parentLim + bottomMin, max: bottom + (height - minHeight) },
             };
 
             if (this.aspectRatio) {
