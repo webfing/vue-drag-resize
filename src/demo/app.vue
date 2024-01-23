@@ -40,26 +40,6 @@
                 </div>
             </VueDragResize>
         </div>
-
-        <VueDragResize
-            :isActive="true"
-            :w="330"
-            :h="1114"
-            :minw="330"
-            :maxw="760"
-            :sticks="['ml']"
-            :x="960"
-            :z="1000"
-            stickStyle="none"
-            stickHoverStyle="none"
-            :isDraggable="false"
-            :y="90"
-            class="global-qa-drag"
-            ref="qlobalQaDrag"
-        >
-        test
-        </VueDragResize>
-
         <toolbar></toolbar>
     </div>
 </template>
