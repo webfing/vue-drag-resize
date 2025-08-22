@@ -1,6 +1,6 @@
 {
   "name": "vue2-drag-resize",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Vue Component for resize and drag elements fork from https://github.com/kirillmurashov/vue-drag-resize",
   "author": "cpjmj Kirill",
   "main": "dist/index.js",
@@ -57,7 +57,6 @@
     "gulp-concat": "^2.6.1",
     "gulp-concat-util": "^0.5.5",
     "gulp-copy": "0.0.2",
-    "gulp-delete-file": "^1.0.2",
     "gulp-dotify": "^0.1.2",
     "gulp-file": "^0.3.0",
     "gulp-header": "^1.8.9",
